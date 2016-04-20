@@ -86,7 +86,7 @@ Hand.prototype.moveForward = function (z, hand, controller) {
     var isForward = [];
 
     var nieuweZ = z;
-    var huidigeZ = hand.stabilizedPalmPosition[2];
+    var huidigeZ = hand.palmPosition[2];
     for (var i = 0; i < AVERAGE_FRAMES; i++) {
         var handFromFrame = controller.frame(i).hand(hand.id);
         if (handFromFrame.valid === true && ((nieuweZ - huidigeZ >= MIN_MOVEMENT_FORWARD) || (huidigeZ - nieuweZ >= MIN_MOVEMENT_FORWARD))) {
@@ -106,7 +106,7 @@ Hand.prototype.moveBackward = function (z, hand, controller) {
     var isBackward = [];
 
     var nieuweZ = z;
-    var huidigeZ = hand.stabilizedPalmPosition[2];
+    var huidigeZ = hand.palmPosition[2];
     for (var i = 0; i < AVERAGE_FRAMES; i++) {
         var handFromFrame = controller.frame(i).hand(hand.id);
         if (handFromFrame.valid === true && ((nieuweZ - huidigeZ >= MIN_MOVEMENT_BACKWARD) || (huidigeZ - nieuweZ >= MIN_MOVEMENT_BACKWARD))) {

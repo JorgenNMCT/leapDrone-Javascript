@@ -16,7 +16,7 @@ controller.on('disconnect', onDisconnect); // Dispatched when this Controller ob
 controller.on('blur', onBlur); // Dispatched when the browser page loses focus
 controller.on('focus', onFocus); // Dispatched when the browser tab gains focus.
 
-var controller = Leap.loop(null, function (frame) {
+var controller = Leap.loop({ enableGestures: true }, function (frame) {
     var newFrame = frame;
     var oldFrame = controller.frame(2);
 
@@ -40,15 +40,31 @@ var controller = Leap.loop(null, function (frame) {
                         console.log("Down: ", hand.stabilizedPalmPosition[1], oldHand.stabilizedPalmPosition[1]);
                     }
 
-                    if (movementHand.moveForward(hand.stabilizedPalmPosition[2], oldHand, controller)) {
-                        console.log("Forward: ", hand.stabilizedPalmPosition[2], oldHand.stabilizedPalmPosition[2]);
-                    } else if (movementHand.moveBackward(hand.stabilizedPalmPosition[2], oldHand, controller)) {
-                        console.log("Backward: ", hand.stabilizedPalmPosition[2], oldHand.stabilizedPalmPosition[2]);
+                    if (movementHand.moveForward(hand.palmPosition[2], oldHand, controller)) {
+                        console.log("Forward: ", hand.palmPosition[2], oldHand.palmPosition[2]);
+                    } else if (movementHand.moveBackward(hand.palmPosition[2], oldHand, controller)) {
+                        console.log("Backward: ", hand.palmPosition[2], oldHand.palmPosition[2]);
                     }
-                }else{ // Niet alle vingers zijn uitgestrekt
-                    console.log("Niet alle fingers zijn uitgestrekt");
+                } else { // Niet alle vingers zijn uitgestrekt
+                    //console.log("Niet alle fingers zijn uitgestrekt");
                 }
             }
+        }
+
+        if (newFrame.valid && newFrame.gestures.length > 0) {
+            newFrame.gestures.forEach(function (gesture) {
+                switch (gesture.type) {
+                    case "circle":
+                        console.log("Circle Gesture");
+                        break;
+                    case "keyTap":
+                        console.log("Key Tap Gesture");
+                        break;
+                    case "screenTap":
+                        console.log("Screen Tap Gesture");
+                        break;
+                }
+            });
         }
     }
 });
@@ -66,7 +82,7 @@ function onConnected() {
 }
 
 function onDeviceAttached(e) {
-    console.log("Device attached: ", e);   
+    console.log("Device attached: ", e);
 }
 
 function onDeviceStopped() {
