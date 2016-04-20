@@ -9,7 +9,12 @@ controller.connect();
 //controller.on('frame', onFrame);
 controller.on('connect', onConnected);
 controller.on('deviceConnected', onDeviceConnected);
+controller.on('deviceAttached', onDeviceAttached); // Dispatched when the Leap Motion device is plugged in or turned on
 controller.on('deviceDisconnected', onDeviceDisconnected);
+controller.on('deviceStopped', onDeviceStopped); // Dispatched when the Leap Motion device is plugged in or turned on
+controller.on('disconnect', onDisconnect); // Dispatched when this Controller object disconnects from the Leap Motion WebSocket server.
+controller.on('blur', onBlur); // Dispatched when the browser page loses focus
+controller.on('focus', onFocus); // Dispatched when the browser tab gains focus.
 
 var controller = Leap.loop(null, function (frame) {
     var newFrame = frame;
@@ -58,4 +63,24 @@ function onDeviceDisconnected() {
 
 function onConnected() {
     console.log("Connected");
+}
+
+function onDeviceAttached(e) {
+    console.log("Device attached: ", e);   
+}
+
+function onDeviceStopped() {
+    console.log("Device stopped");
+}
+
+function onDisconnect() {
+    console.log("Disconnected");
+}
+
+function onBlur() {
+    console.log("Focus lost");
+}
+
+function onFocus() {
+    console.log("Focus gained");
 }
