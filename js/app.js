@@ -1,8 +1,4 @@
-// Constants
-const AVERAGE_FRAMES = 20;
-const MIN_MOVEMENT = 4;
-
-// Prototypes
+// Prototypes/objects
 var movementHand = new Hand();
 var util = new Util();
 

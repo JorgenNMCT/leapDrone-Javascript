@@ -1,7 +1,7 @@
 // Constructor
-function Util() {}
+function Util() { }
 
-Util.prototype.calculateAverageBoolean = function(bools) {
+Util.prototype.calculateAverageBoolean = function (bools) {
     if (bools.length > 0) {
         var countTrue = 0;
         var countFalse = 0;

@@ -1,7 +1,7 @@
 // Constructor
-function Hand() {}
+function Hand() { }
 
-Hand.prototype.moveRight = function(x, hand, controller) {
+Hand.prototype.moveRight = function (x, hand, controller) {
     var count = 0;
     var isRight = [];
 
