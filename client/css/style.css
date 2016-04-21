@@ -13,7 +13,25 @@ main > section > article {
     background-color: #E7E7E7;
 }
 
-article ul.feedScroller {
+.feedScroller {
     max-height: 200px;
     overflow: auto;
+    text-transform: capitalize;
+    padding: 0;
+}
+
+.feedScroller > li {
+    padding: 5px;
+    width: 100%;
+}
+
+.feedScroller li.emptyFeed {
+    text-transform: none;
+}
+
+
+/* Notify override */
+
+[data-notify="title"] > strong > span {
+    text-transform: capitalize;
 }

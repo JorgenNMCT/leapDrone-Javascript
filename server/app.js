@@ -43,26 +43,26 @@ var controller = Leap.loop({ enableGestures: true }, function (frame) {
                 if (movementHand.fingersExtended(currentHand.fingers)) {
                     if (movementHand.moveRight(currentHand.stabilizedPalmPosition[0], oldHand, controller)) {
                         console.log("LEAP: Right", currentHand.stabilizedPalmPosition[0], oldHand.stabilizedPalmPosition[0]);
-                        io.sockets.emit('move', { sender: 'drone', action: 'right' });
+                        io.sockets.emit('move', { sender: 'drone', info: 'right' });
                     } else if (movementHand.moveLeft(currentHand.stabilizedPalmPosition[0], oldHand, controller)) {
                         console.log("LEAP: Left", currentHand.stabilizedPalmPosition[0], oldHand.stabilizedPalmPosition[0]);
-                        io.sockets.emit('move', { sender: 'drone', action: 'left' });
+                        io.sockets.emit('move', { sender: 'drone', info: 'left' });
                     }
 
                     if (movementHand.moveUp(currentHand.stabilizedPalmPosition[1], oldHand, controller)) {
                         console.log("LEAP: Up", currentHand.stabilizedPalmPosition[1], oldHand.stabilizedPalmPosition[1]);
-                        io.sockets.emit('move', { sender: 'drone', action: 'up' });
+                        io.sockets.emit('move', { sender: 'drone', info: 'up' });
                     } else if (movementHand.moveDown(currentHand.stabilizedPalmPosition[1], oldHand, controller)) {
                         console.log("LEAP: Down", currentHand.stabilizedPalmPosition[1], oldHand.stabilizedPalmPosition[1]);
-                        io.sockets.emit('move', { sender: 'drone', action: 'down' });
+                        io.sockets.emit('move', { sender: 'drone', info: 'down' });
                     }
 
                     if (movementHand.moveForward(currentHand.palmPosition[2], oldHand, controller)) {
                         console.log("LEAP: Forward", currentHand.palmPosition[2], oldHand.palmPosition[2]);
-                        io.sockets.emit('move', { sender: 'drone', action: 'forward' });
+                        io.sockets.emit('move', { sender: 'drone', info: 'forward' });
                     } else if (movementHand.moveBackward(currentHand.palmPosition[2], oldHand, controller)) {
                         console.log("LEAP: Backward", currentHand.palmPosition[2], oldHand.palmPosition[2]);
-                        io.sockets.emit('move', { sender: 'drone', action: 'backward' });
+                        io.sockets.emit('move', { sender: 'drone', info: 'backward' });
                     }
                 } else { // Niet alle vingers zijn uitgestrekt
                     //console.log("Niet alle fingers zijn uitgestrekt");
@@ -93,42 +93,42 @@ var controller = Leap.loop({ enableGestures: true }, function (frame) {
 /* Controller events */
 function onDeviceConnected() {
     console.log("LEAP: Device connected");
-    io.sockets.emit("leapdevice", { sender: 'leap device', device: "connected" });
+    io.sockets.emit("leapdevice", { sender: 'leap device', info: "connected", msg: "Leap Motion device is connected.", priority: "low" });
 }
 
 function onDeviceDisconnected() {
     console.log("LEAP: Device disconnected");
-    io.sockets.emit("leapdevice", { sender: 'leap device', device: "disconnected" });
+    io.sockets.emit("leapdevice", { sender: 'leap device', info: "disconnected", msg: "Leap Motion device is disconnected!", priority: "high" });
 }
 
 function onConnected() {
     console.log("LEAP: Connected");
-    io.sockets.emit("leap", { sender: 'leap', leap: "connected" });
+    io.sockets.emit("leap", { sender: 'leap', info: "connected", priority: "low" });
 }
 
 function onDeviceAttached(e) {
     console.log("LEAP: Device attached: ", e);
-    io.sockets.emit("leapdevice", { sender: 'leap device', device: "attached", data: e });
+    io.sockets.emit("leapdevice", { sender: 'leap device', info: "attached", data: e, msg: "Leap Motion device is attached.", priority: "low" });
 }
 
 function onDeviceStopped() {
     console.log("LEAP: Device stopped");
-    io.sockets.emit("leapdevice", { sender: 'leap device', device: "stopped" });
+    io.sockets.emit("leapdevice", { sender: 'leap device', info: "stopped", msg: "Leap Motion device/service stopped working.", priority: "high" });
 }
 
 function onDisconnect() {
     console.log("LEAP: Disconnected");
-    io.sockets.emit("leap", { sender: 'leap', leap: "disconnected" });
+    io.sockets.emit("leap", { sender: 'leap', info: "disconnected", msg: "Leap Motion service is disconnected.", priority: "high" });
 }
 
 function onBlur() {
     console.log("LEAP: Focus lost");
-    io.sockets.emit("leap", { sender: 'leap', leap: "blur" });
+    io.sockets.emit("leap", { sender: 'leap', info: "blur" });
 }
 
 function onFocus() {
     console.log("LEAP: Focus gained");
-    io.sockets.emit("leap", { sender: 'leap', leap: "focus" });
+    io.sockets.emit("leap", { sender: 'leap', info: "focus" });
 }
 
 /* Socket.io server */
