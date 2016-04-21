@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LeapDrone</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <script src="js/lib/socket.io.js"></script>
+    <script src="js/lib/jquery-2.2.3.min.js"></script>
+    <script src="js/client.js"></script>
+</head>
+
+<body class="col-md-12 container">
+    <header>
+        <h1>LeapDrone</h1>
+    </header>
+    <main class="row">
+        <section class="col-md-9">
+            <article class="col-md-6">
+                <h2>Camera</h2>
+            </article>
+            <article class="col-md-offset-1 col-md-4">
+                <h2>Drone Data</h2>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Battery</th>
+                            <td>Value</td>
+                        </tr>
+                        <tr>
+                            <th>Altitude</th>
+                            <td>Value</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+            <article class="col-md-offset-7 col-md-4">
+                <h2>LED Controls</h2>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Battery</th>
+                            <td>Value</td>
+                        </tr>
+                        <tr>
+                            <th>Altitude</th>
+                            <td>Value</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </section>
+        <section class="col-md-3">
+            <article>
+                <h2>Feed</h2>
+                <ul class="feedScroller"></ul>
+            </article>
+            <article>
+                <h2>Controls</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>T</td>
+                            <td>Takeoff</td>
+                        </tr>
+                        <tr>
+                            <td>L</td>
+                            <td>Land</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </section>
+    </main>
+</body>
+
+</html>

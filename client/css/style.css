@@ -1,0 +1,19 @@
+body {
+    background-color: #9DA5A6;
+}
+
+h2 {
+    margin-top: 10px;
+}
+
+main > section > article {
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #E7E7E7;
+}
+
+article ul.feedScroller {
+    max-height: 200px;
+    overflow: auto;
+}
