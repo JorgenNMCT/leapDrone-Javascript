@@ -5,18 +5,25 @@ var oHand = require("./movement/Hand.js");
 // Alle constantes ophalen om deze hier te gebruiken
 var constants = require("./helper/constants.js");
 
+// Drone instances
+var arDrone = require('ar-drone');
+var client = arDrone.createClient();
+
 // SocketIO
 var app = require('http').createServer(handler)
 var io = require('socket.io')(app);
 var fs = require('fs');
 
-// Drone instances
-var arDrone = require('ar-drone');
-var client  = arDrone.createClient();
+// Eigen drone instance
+var Drone = require("./helper/Drone.js");
+var drone = new Drone(io);
 
 // instances
 var Leap = oLeap;
 var movementHand = new oHand();
+
+// Variables for program stability
+var isHovering = false;
 
 /* Make the controller accessible */
 var controller = new Leap.Controller();
@@ -46,37 +53,43 @@ var controller = Leap.loop({ enableGestures: true }, function (frame) {
                 // Alle fingers moeten uitgestrekt zijn voordat we iets gaan herkennen
                 if (movementHand.fingersExtended(currentHand.fingers)) {
                     if (movementHand.moveRight(currentHand.stabilizedPalmPosition[0], oldHand, controller)) {
+                        drone.right();
                         console.log("LEAP: Right", currentHand.stabilizedPalmPosition[0], oldHand.stabilizedPalmPosition[0]);
-                        client.right(constants.DRONE_SPEED_LEFT_RIGHT);
-                        io.sockets.emit('move', { sender: 'drone', info: 'right' });
+                        io.sockets.emit('move', { sender: 'Leap', info: 'right' });
+                        isHovering = false;
                     } else if (movementHand.moveLeft(currentHand.stabilizedPalmPosition[0], oldHand, controller)) {
+                        drone.left();
                         console.log("LEAP: Left", currentHand.stabilizedPalmPosition[0], oldHand.stabilizedPalmPosition[0]);
-                        io.sockets.emit('move', { sender: 'drone', info: 'left' });
-                        client.left(constants.DRONE_SPEED_LEFT_RIGHT);
+                        io.sockets.emit('move', { sender: 'Leap', info: 'left' });
+                        isHovering = false;
                     }
 
                     if (movementHand.moveUp(currentHand.stabilizedPalmPosition[1], oldHand, controller)) {
+                        drone.up();
                         console.log("LEAP: Up", currentHand.stabilizedPalmPosition[1], oldHand.stabilizedPalmPosition[1]);
-                        io.sockets.emit('move', { sender: 'drone', info: 'up' });
-                        client.up(constants.DRONE_SPEED_LEFT_RIGHT);
+                        io.sockets.emit('move', { sender: 'Leap', info: 'up' });
+                        isHovering = false;
                     } else if (movementHand.moveDown(currentHand.stabilizedPalmPosition[1], oldHand, controller)) {
+                        drone.down();
                         console.log("LEAP: Down", currentHand.stabilizedPalmPosition[1], oldHand.stabilizedPalmPosition[1]);
-                        io.sockets.emit('move', { sender: 'drone', info: 'down' });
-                        client.down(constants.DRONE_SPEED_LEFT_RIGHT);
+                        io.sockets.emit('move', { sender: 'Leap', info: 'down' });
+                        isHovering = false;
                     }
 
                     if (movementHand.moveForward(currentHand.palmPosition[2], oldHand, controller)) {
+                        drone.front();
                         console.log("LEAP: Forward", currentHand.palmPosition[2], oldHand.palmPosition[2]);
-                        io.sockets.emit('move', { sender: 'drone', info: 'forward' });
-                        client.front(constants.DRONE_SPEED_LEFT_RIGHT);
+                        io.sockets.emit('move', { sender: 'Leap', info: 'forward' });
+                        isHovering = false;
                     } else if (movementHand.moveBackward(currentHand.palmPosition[2], oldHand, controller)) {
+                        drone.back();
                         console.log("LEAP: Backward", currentHand.palmPosition[2], oldHand.palmPosition[2]);
-                        io.sockets.emit('move', { sender: 'drone', info: 'backward' });
-                        client.back(constants.DRONE_SPEED_LEFT_RIGHT);
+                        io.sockets.emit('move', { sender: 'Leap', info: 'backward' });
+                        isHovering = false;
                     }
                 } else { // Niet alle vingers zijn uitgestrekt
                     //console.log("Niet alle fingers zijn uitgestrekt");
-                    client.stop();
+                    if(!isHovering) { drone.hover(); isHovering = true; }
                 }
             } else if (currentHand.type == "left" && currentHand.valid == true && oldHand.valid == true) {
                 if (newFrame.valid && newFrame.gestures.length > 0) {
@@ -164,19 +177,14 @@ io.on('connection', function (socket) {
     // Listen for drone specific events (takeoff, ...)
     socket.on('drone', function (data) {
         console.log("SOCKET.IO: " + data.action);
-        var cmd = "client." + data.action + "();";
+        var cmd = "drone." + data.action + "();";
         eval(cmd);
-        console.log(cmd);
     });
     // Listen for movement specific events (up, down, ...)
     socket.on('move', function (data) {
-        console.log("SOCKET.IO: Movement -> " + data.action);
-        var cmd = "client." + data.action + "(" + constants.DRONE_SPEED_UP_DOWN + ");";
+        console.log("SOCKET.IO: Movement -> " + data.action + " (speed: " + constants.DRONE_SPEED_UP_DOWN + ")");
+        var cmd = "drone." + data.action + "();";
         eval(cmd);
-        console.log(cmd);
-        setTimeout(function() {
-            client.stop();
-        }, 1000);
     });
 });
 
@@ -187,12 +195,18 @@ io.sockets.setMaxListeners(0);
 process.stdin.resume();//so the program will not close instantly
 
 function exitHandler(options, err) {
-    if (options.cleanup) {
-        // code to let the drone land
-        client.stop();
-        client.land();
-    }
-    if (err) console.log(err.stack);
+    if (options.cleanup) // program stopped, let the drone land in peace
+        drone.shutdown();
+
+    if (err || options.exit) // Program is closing or crashed -> emergency
+        drone.emergency();
+}
+
+function exitHandler(options, err) {
+    if (options.cleanup) // program stopped, let the drone land in peace
+        drone.shutdown();
+        
+    if (err) drone.emergency();
     if (options.exit) process.exit();
 }
 

@@ -17,8 +17,6 @@ const DRONE_SPEED_FRONT_BACK = 0.01;    // Frontward and backward
 const DRONE_SPEED_LEFT_RIGHT = 0.01;    // Left and right
 const DRONE_SPEED_CIRCLES = 0.01;       // Clock- or counter clockwise
 
-/* Speed */
-
 module.exports = {
     AVERAGE_FRAMES: AVERAGE_FRAMES,
     MIN_MOVEMENT: MIN_MOVEMENT,
