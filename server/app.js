@@ -1,4 +1,4 @@
-// requires
+/* Requires */
 var oLeap = require("leapjs");
 var oHand = require("./movement/Hand.js");
 
@@ -9,6 +9,10 @@ var constants = require("./helper/constants.js");
 var app = require('http').createServer(handler)
 var io = require('socket.io')(app);
 var fs = require('fs');
+
+// Drone instances
+var arDrone = require('ar-drone');
+var client  = arDrone.createClient();
 
 // instances
 var Leap = oLeap;
@@ -148,5 +152,37 @@ function handler(req, res) {
         });
 }
 
+/* Listen for specific events */
+io.on('connection', function (socket) {
+    // Listen for drone specific events (takeoff, ...)
+    socket.on('drone', function (data) {
+        console.log("SOCKET.IO: " + data.action);
+    });
+    // Listen for movement specific events (up, down, ...)
+    socket.on('move', function (data) {
+        console.log("SOCKET.IO: Movement -> " + data.action);
+    });
+});
+
 // To prevent a memory leak on runtime. We set unlimited listeners
 io.sockets.setMaxListeners(0);
+
+/* Proper cleaning of the app */
+process.stdin.resume();//so the program will not close instantly
+
+function exitHandler(options, err) {
+    if (options.cleanup) {
+        // code to let the drone land
+    }
+    if (err) console.log(err.stack);
+    if (options.exit) process.exit();
+}
+
+//do something when app is closing
+process.on('exit', exitHandler.bind(null, { cleanup: true }));
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, { exit: true }));
+
+//catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, { exit: true }));

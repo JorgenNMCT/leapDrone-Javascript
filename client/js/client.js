@@ -16,6 +16,11 @@ socket.on("leapdevice", function (data) {
     handleSocket(data);
 });
 
+socket.on("keyevent", function (data) {
+    console.log(data);
+    addToFeed(null, "Key", data.button + " (" + data.action + ")");
+});
+
 function handleSocket(data) {
     console.log(typeof data.priority !== "undefined");
     if(typeof data.priority != "undefined" && typeof data.msg != "undefined")
