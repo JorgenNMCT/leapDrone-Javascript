@@ -1,3 +1,8 @@
+/* If window is loaded */
+$(document).ready(function() {
+    generateControls();    
+});
+
 /* Socket.IO */
 var socket = io("http://localhost");
 
@@ -14,11 +19,6 @@ socket.on("leap", function (data) {
 socket.on("leapdevice", function (data) {
     console.log(data);
     handleSocket(data);
-});
-
-socket.on("keyevent", function (data) {
-    console.log(data);
-    addToFeed(null, "Key", data.button + " (" + data.action + ")");
 });
 
 function handleSocket(data) {
@@ -43,6 +43,16 @@ function showNotification(sender, priority, msg) {
             type: classType,
             delay: 5000
         });
+}
+
+function generateControls() {
+    $.each(keyMap, function(i, btn) {
+        $tr = $("<tr>");
+        $key = $("<td>").html( (btn.key == null ? String.fromCharCode(i) : btn.key) );
+        $action = $("<td>").html(btn.action);
+        $tr.append($key, $action);
+        $('.controls > tbody').append($tr);
+    });
 }
 
 function getBootstrapClass(priority) {
