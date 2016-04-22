@@ -12,7 +12,7 @@ const SOCKET_IO_PORT = 80;
 
 /* === Drone constants */
 /* Speed */
-const DRONE_SPEED_UP_DOWN = 0.01;       // Up and down
+const DRONE_SPEED_UP_DOWN = 0.1;       // Up and down
 const DRONE_SPEED_FRONT_BACK = 0.01;    // Frontward and backward
 const DRONE_SPEED_LEFT_RIGHT = 0.01;    // Left and right
 const DRONE_SPEED_CIRCLES = 0.01;       // Clock- or counter clockwise

@@ -47,29 +47,36 @@ var controller = Leap.loop({ enableGestures: true }, function (frame) {
                 if (movementHand.fingersExtended(currentHand.fingers)) {
                     if (movementHand.moveRight(currentHand.stabilizedPalmPosition[0], oldHand, controller)) {
                         console.log("LEAP: Right", currentHand.stabilizedPalmPosition[0], oldHand.stabilizedPalmPosition[0]);
+                        client.right(constants.DRONE_SPEED_LEFT_RIGHT);
                         io.sockets.emit('move', { sender: 'drone', info: 'right' });
                     } else if (movementHand.moveLeft(currentHand.stabilizedPalmPosition[0], oldHand, controller)) {
                         console.log("LEAP: Left", currentHand.stabilizedPalmPosition[0], oldHand.stabilizedPalmPosition[0]);
                         io.sockets.emit('move', { sender: 'drone', info: 'left' });
+                        client.left(constants.DRONE_SPEED_LEFT_RIGHT);
                     }
 
                     if (movementHand.moveUp(currentHand.stabilizedPalmPosition[1], oldHand, controller)) {
                         console.log("LEAP: Up", currentHand.stabilizedPalmPosition[1], oldHand.stabilizedPalmPosition[1]);
                         io.sockets.emit('move', { sender: 'drone', info: 'up' });
+                        client.up(constants.DRONE_SPEED_LEFT_RIGHT);
                     } else if (movementHand.moveDown(currentHand.stabilizedPalmPosition[1], oldHand, controller)) {
                         console.log("LEAP: Down", currentHand.stabilizedPalmPosition[1], oldHand.stabilizedPalmPosition[1]);
                         io.sockets.emit('move', { sender: 'drone', info: 'down' });
+                        client.down(constants.DRONE_SPEED_LEFT_RIGHT);
                     }
 
                     if (movementHand.moveForward(currentHand.palmPosition[2], oldHand, controller)) {
                         console.log("LEAP: Forward", currentHand.palmPosition[2], oldHand.palmPosition[2]);
                         io.sockets.emit('move', { sender: 'drone', info: 'forward' });
+                        client.front(constants.DRONE_SPEED_LEFT_RIGHT);
                     } else if (movementHand.moveBackward(currentHand.palmPosition[2], oldHand, controller)) {
                         console.log("LEAP: Backward", currentHand.palmPosition[2], oldHand.palmPosition[2]);
                         io.sockets.emit('move', { sender: 'drone', info: 'backward' });
+                        client.back(constants.DRONE_SPEED_LEFT_RIGHT);
                     }
                 } else { // Niet alle vingers zijn uitgestrekt
                     //console.log("Niet alle fingers zijn uitgestrekt");
+                    client.stop();
                 }
             } else if (currentHand.type == "left" && currentHand.valid == true && oldHand.valid == true) {
                 if (newFrame.valid && newFrame.gestures.length > 0) {
@@ -165,8 +172,11 @@ io.on('connection', function (socket) {
     socket.on('move', function (data) {
         console.log("SOCKET.IO: Movement -> " + data.action);
         var cmd = "client." + data.action + "(" + constants.DRONE_SPEED_UP_DOWN + ");";
-        
+        eval(cmd);
         console.log(cmd);
+        setTimeout(function() {
+            client.stop();
+        }, 1000);
     });
 });
 
@@ -179,6 +189,8 @@ process.stdin.resume();//so the program will not close instantly
 function exitHandler(options, err) {
     if (options.cleanup) {
         // code to let the drone land
+        client.stop();
+        client.land();
     }
     if (err) console.log(err.stack);
     if (options.exit) process.exit();
