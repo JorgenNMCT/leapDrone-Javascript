@@ -157,10 +157,16 @@ io.on('connection', function (socket) {
     // Listen for drone specific events (takeoff, ...)
     socket.on('drone', function (data) {
         console.log("SOCKET.IO: " + data.action);
+        var cmd = "client." + data.action + "();";
+        eval(cmd);
+        console.log(cmd);
     });
     // Listen for movement specific events (up, down, ...)
     socket.on('move', function (data) {
         console.log("SOCKET.IO: Movement -> " + data.action);
+        var cmd = "client." + data.action + "(" + constants.DRONE_SPEED_UP_DOWN + ");";
+        
+        console.log(cmd);
     });
 });
 
