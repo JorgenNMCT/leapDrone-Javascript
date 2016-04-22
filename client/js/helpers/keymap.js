@@ -4,6 +4,8 @@ var keyMap = {
     76: { send: "drone", action: "land" },
 
     69: { send: "drone", action: "emergency" },
+    
+    78: { send: "drone", action: "next camera" },
 
     17: { send: "move", key: "ctrl", action: "up" },
     32: { send: "move", key: "space", action: "down" },

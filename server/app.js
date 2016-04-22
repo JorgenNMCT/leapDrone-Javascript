@@ -89,7 +89,7 @@ var controller = Leap.loop({ enableGestures: true }, function (frame) {
                     }
                 } else { // Niet alle vingers zijn uitgestrekt
                     //console.log("Niet alle fingers zijn uitgestrekt");
-                    if(!isHovering) { drone.hover(); isHovering = true; }
+                    if (!isHovering) { drone.hover(); isHovering = true; }
                 }
             } else if (currentHand.type == "left" && currentHand.valid == true && oldHand.valid == true) {
                 if (newFrame.valid && newFrame.gestures.length > 0) {
@@ -172,6 +172,9 @@ function handler(req, res) {
         });
 }
 
+var callback = function(err) { if (err) console.log(err); };
+client.config({ key: 'general:navdata_demo', value: 'FALSE', timeout: 1000 }, callback);
+
 /* Listen for specific events */
 io.on('connection', function (socket) {
     // Listen for drone specific events (takeoff, ...)
@@ -205,7 +208,7 @@ function exitHandler(options, err) {
 function exitHandler(options, err) {
     if (options.cleanup) // program stopped, let the drone land in peace
         drone.shutdown();
-        
+
     if (err) drone.emergency();
     if (options.exit) process.exit();
 }

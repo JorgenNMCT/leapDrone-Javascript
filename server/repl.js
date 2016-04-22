@@ -39,14 +39,3 @@ client.createRepl();
      tagIndex: 0 },
   drone: { camera: { rotation: [Object], translation: [Object] } } }
 */
-
-
-
-/*
-var cv = require('opencv');
-var pngStream = client.getPngStream();
-pngStream.on('data', function (data) {
-    cv.readImage(data, function(err, mat) {
-      mat.save('test.png');
-    });
-});*/

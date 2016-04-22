@@ -142,6 +142,10 @@ var Drone = function (io) {
             console.log('DRONE: Shutting down denied, not flying');
         }
     }
+    
+    self.nextCamera = function() {
+        
+    }
 };
 
 // Zie movement/Hand.js voor de uitleg
