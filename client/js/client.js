@@ -150,6 +150,12 @@ function getVideoStatus() {
                 _videoOnline = false;
             }
         });
+        
+        if(isVideoOnline()) {
+            $('.videoFeed').attr('src', 'http://localhost:8000/');
+        }else{
+            $('.videoFeed').attr('src', 'img/feed_offline.png');
+        }
     }, 1500);
 }
 

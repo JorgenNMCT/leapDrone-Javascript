@@ -6,7 +6,7 @@ h1, h2 {
     margin-top: 10px;
 }
 
-main > section > article {
+main > section > article > div {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;

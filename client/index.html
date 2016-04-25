@@ -18,110 +18,117 @@
         <h1>LeapDrone</h1>
     </header>
     <main class="row">
-        <section class="col-md-9">
+        <section class="col-md-9 row">
             <article class="col-md-6">
-                <h2>Camera</h2>
-                <img src="" />
+                <div>
+                    <h2>Camera</h2>
+                    <img class="videoFeed" src="http://localhost:8000/" height="490" />
+                </div>
             </article>
 
             <article class="col-md-offset-1 col-md-4">
-                <h2>Drone Data</h2>
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <th class="col-md-7">Battery</th>
-                            <td class="batteryPercentage">
-                                <div id="batBody">
-                                    <div id="indicator" class="charging" style="width: 0%;">
+                <div>
+                    <h2>Drone Data</h2>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th class="col-md-7">Battery</th>
+                                <td class="batteryPercentage">
+                                    <div id="batBody">
+                                        <div id="indicator" class="charging" style="width: 0%;">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="batEnd">
-                                    <div></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Altitude (in meters)</th>
-                            <td class="altitudeMeters">n/a</td>
-                        </tr>
-                        <tr>
-                            <th>WiFi Quality</th>
-                            <td class="linkQuality">n/a</td>
-                        </tr>
-                        <tr>
-                            <th>Communication lost</th>
-                            <td class="communicationLost">n/a</td>
-                        </tr>
-                        <tr>
-                            <th>Low battery</th>
-                            <td class="lowBattery">n/a</td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <div class="batEnd">
+                                        <div></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Altitude (in meters)</th>
+                                <td class="altitudeMeters">n/a</td>
+                            </tr>
+                            <tr>
+                                <th>WiFi Quality</th>
+                                <td class="linkQuality">n/a</td>
+                            </tr>
+                            <tr>
+                                <th>Communication lost</th>
+                                <td class="communicationLost">n/a</td>
+                            </tr>
+                            <tr>
+                                <th>Low battery</th>
+                                <td class="lowBattery">n/a</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h2>GPS Data</h2>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th class="col-md-7">Data available</th>
+                                <td class="dataAvailable">n/a</td>
+                            </tr>
+                            <tr>
+                                <th>Latitude</th>
+                                <td class="latitude">n/a</td>
+                            </tr>
+                            <tr>
+                                <th>Longitude</th>
+                                <td class="longitude">n/a</td>
+                            </tr>
+                            <tr>
+                                <th>Elevation</th>
+                                <td class="elevation">n/a</td>
+                            </tr>
+                            <tr>
+                                <th>Satellites</th>
+                                <td class="nbSatellites">n/a</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </article>
 
             <article class="col-md-offset-7 col-md-4">
-                <h2>GPS Data</h2>
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <th class="col-md-7">Data available</th>
-                            <td class="dataAvailable">n/a</td>
-                        </tr>
-                        <tr>
-                            <th>Latitude</th>
-                            <td class="latitude">n/a</td>
-                        </tr>
-                        <tr>
-                            <th>Longitude</th>
-                            <td class="longitude">n/a</td>
-                        </tr>
-                        <tr>
-                            <th>Elevation</th>
-                            <td class="elevation">n/a</td>
-                        </tr>
-                        <tr>
-                            <th>Satellites</th>
-                            <td class="nbSatellites">n/a</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </article>
-
-            <article class="col-md-offset-7 col-md-4">
-                <h2>LED Controls</h2>
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <th>Battery</th>
-                            <td>Value</td>
-                        </tr>
-                        <tr>
-                            <th>Altitude</th>
-                            <td>Value</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div>
+                    <h2>LED Controls</h2>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Battery</th>
+                                <td>Value</td>
+                            </tr>
+                            <tr>
+                                <th>Altitude</th>
+                                <td>Value</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </article>
         </section>
         <section class="col-md-3">
             <article>
-                <h2>Feed</h2>
-                <ul class="feedScroller">
-                    <li class="emptyFeed bg-primary">This feed is empty... :(</li>
-                </ul>
-            </article>
-            <article>
-                <h2>Controls</h2>
-                <table class="table table-striped controls">
-                    <thead>
-                        <tr>
-                            <th>Key</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div>
+                    <h2>Feed</h2>
+                    <ul class="feedScroller">
+                        <li class="emptyFeed bg-primary">This feed is empty... :(</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Controls</h2>
+                    <table class="table table-striped controls">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </article>
         </section>
     </main>
