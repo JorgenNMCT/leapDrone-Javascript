@@ -191,7 +191,7 @@ if (constants.DEBUG_MODE) {
     setInterval(function () {
         var data = util.generateFakeDroneData();
         io.sockets.emit('data', { device: 'drone', info: data });
-    }, 250);
+    }, 500);
 }
 
 /* Listen for specific events */
