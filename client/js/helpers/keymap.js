@@ -4,7 +4,7 @@ var keyMap = {
     76: { send: "drone", action: "land" },
 
     69: { send: "drone", action: "emergency" },
-    
+
     78: { send: "drone", action: "next camera" },
 
     17: { send: "move", key: "ctrl", action: "up" },
@@ -15,11 +15,14 @@ var keyMap = {
     40: { send: "move", key: "down arrow", action: "back" }
 }
 
-// check if we find a keypress
+// check if we find a keypress when the server did connect
+
 $(document).keydown(function (e) {
-    if (typeof keyMap[e.which] !== "undefined" && typeof keyMap[e.which] !== "null") {
-        var button = keyMap[e.which];
-        socket.emit(button.send, { action: button.action });
-        addToFeed(null, "Key press", (button.key == null ? String.fromCharCode(e.which) : button.key) + " (" + button.action + ")");
+    if (isServerOnline()) {
+        if (typeof keyMap[e.which] !== "undefined" && typeof keyMap[e.which] !== "null") {
+            var button = keyMap[e.which];
+            socket.emit(button.send, { action: button.action });
+            addToFeed(null, "Key press", (button.key == null ? String.fromCharCode(e.which) : button.key) + " (" + button.action + ")");
+        }
     }
 });
