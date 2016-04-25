@@ -21,6 +21,9 @@ const DRONE_SPEED_FRONT_BACK = 0.01;    // Frontward and backward
 const DRONE_SPEED_LEFT_RIGHT = 0.01;    // Left and right
 const DRONE_SPEED_CIRCLES = 0.01;       // Clock- or counter clockwise
 
+/* Server */
+const DRONE_VIDEO = 8000;   // Video server
+
 module.exports = {
     DEBUG_MODE: DEBUG_MODE,
     AVERAGE_FRAMES: AVERAGE_FRAMES,
@@ -31,5 +34,6 @@ module.exports = {
     DRONE_SPEED_UP_DOWN: DRONE_SPEED_UP_DOWN,
     DRONE_SPEED_FRONT_BACK: DRONE_SPEED_FRONT_BACK,
     DRONE_SPEED_LEFT_RIGHT: DRONE_SPEED_LEFT_RIGHT,
-    DRONE_SPEED_CIRCLES: DRONE_SPEED_CIRCLES
+    DRONE_SPEED_CIRCLES: DRONE_SPEED_CIRCLES,
+    DRONE_VIDEO: DRONE_VIDEO,
 };

@@ -23,6 +23,9 @@ var fs = require('fs');
 var Drone = require("./helper/Drone.js");
 var drone = new Drone(io);
 
+// Video feed Drone ophalen
+//require('ar-drone-png-stream')(client, { port: constants.DRONE_VIDEO });
+
 // instances
 var Leap = oLeap;
 var movementHand = new oHand();
@@ -163,6 +166,7 @@ function onFocus() {
 /* Socket.io server */
 app.listen(constants.SOCKET_IO_PORT);
 console.log("\nSOCKET.IO: listening on *:" + constants.SOCKET_IO_PORT + "\n");
+//console.log("\DRONE VIDEO: listening on *:" + constants.DRONE_VIDEO + "\n");
 
 function handler(req, res) {
     fs.readFile(__dirname + '/index.html',
