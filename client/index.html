@@ -23,14 +23,22 @@
                 <h2>Camera</h2>
                 <img src="" />
             </article>
-            
+
             <article class="col-md-offset-1 col-md-4">
                 <h2>Drone Data</h2>
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <th class="col-md-6">Battery</th>
-                            <td class="batteryPercentage">n/a</td>
+                            <th class="col-md-7">Battery</th>
+                            <td class="batteryPercentage">
+                                <div id="batBody">
+                                    <div id="indicator" class="charging" style="width: 97%;">
+                                    </div>
+                                </div>
+                                <div class="batEnd">
+                                    <div></div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <th>Altitude (in meters)</th>
@@ -40,24 +48,24 @@
                             <th>WiFi Quality</th>
                             <td class="linkQuality">n/a</td>
                         </tr>
-                         <tr>
+                        <tr>
                             <th>Communication lost</th>
                             <td class="communicationLost">n/a</td>
                         </tr>
-                         <tr>
+                        <tr>
                             <th>Low battery</th>
                             <td class="lowBattery">n/a</td>
                         </tr>
                     </tbody>
                 </table>
             </article>
-            
+
             <article class="col-md-offset-7 col-md-4">
                 <h2>GPS Data</h2>
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <th class="col-md-6">Data available</th>
+                            <th class="col-md-7">Data available</th>
                             <td class="dataAvailable">n/a</td>
                         </tr>
                         <tr>
@@ -68,18 +76,18 @@
                             <th>Longitude</th>
                             <td class="longitude">n/a</td>
                         </tr>
-                         <tr>
+                        <tr>
                             <th>Elevation</th>
                             <td class="elevation">n/a</td>
                         </tr>
-                         <tr>
+                        <tr>
                             <th>Satellites</th>
                             <td class="nbSatellites">n/a</td>
                         </tr>
                     </tbody>
                 </table>
             </article>
-            
+
             <article class="col-md-offset-7 col-md-4">
                 <h2>LED Controls</h2>
                 <table class="table table-striped">

@@ -68,7 +68,7 @@ function showNotification(sender, priority, msg) {
 function processDroneData(data) {
     console.log(data);
     // Drone data
-    if (propertyHasValue(data.info.demo.batteryPercentage)) $('.batteryPercentage').html(data.info.demo.batteryPercentage);
+    if (propertyHasValue(data.info.demo.batteryPercentage)) $('#indicator').attr('style', "width: " + (data.info.demo.batteryPercentage - 3 > 0 ? data.info.demo.batteryPercentage - 3 : data.info.demo.batteryPercentage) + "%");
     if (propertyHasValue(data.info.demo.altitudeMeters)) $('.altitudeMeters').html(data.info.demo.altitudeMeters);
     if (propertyHasValue(data.info.wifi.linkQuality)) $('.linkQuality').html(data.info.wifi.linkQuality);
     if (propertyHasValue(data.info.droneState.communicationLost)) $('.communicationLost').html(data.info.droneState.communicationLost);
