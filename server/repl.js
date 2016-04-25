@@ -38,4 +38,18 @@ client.createRepl();
    { camera: { rotation: [Object], translation: [Object], type: 3 },
      tagIndex: 0 },
   drone: { camera: { rotation: [Object], translation: [Object] } } }
-*/
+
+  // zie: https://github.com/felixge/node-ar-drone/blob/master/lib/navdata/parseNavdata.js#L447
+  //	> wifi quality: data.wifi.linkQuality
+  //	> battery: data.demo.batteryPercentage
+  //	> altitudeMeters: data.demo.altitudeMeters
+  //	> communication lost: data.droneState.communicationLost
+  //	> Low battery: data.droneState.lowBattery
+  //	> gps:
+			> data avail: data.gps.dataAvailable
+			> latitude: data.gps.latitude
+			> longitude: data.gps.longitude
+			> elevation: data.gps.elevation
+			> nbSatellites: data.gps.nbSatellites
+  
+  */

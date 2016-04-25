@@ -5,6 +5,11 @@ var oHand = require("./movement/Hand.js");
 // Alle constantes ophalen om deze hier te gebruiken
 var constants = require("./helper/constants.js");
 
+// Helper functie ophalen
+var oUtil = require("./helper/Util.js");
+// De opgehaalde helper functie declareren als 'util'
+var util = new oUtil();
+
 // Drone instances
 var arDrone = require('ar-drone');
 var client = arDrone.createClient();
@@ -172,8 +177,22 @@ function handler(req, res) {
         });
 }
 
-var callback = function(err) { if (err) console.log(err); };
+var callback = function (err) { if (err) console.log(err); };
 client.config({ key: 'general:navdata_demo', value: 'FALSE', timeout: 1000 }, callback);
+
+// Ask the drone for his data!
+client.on('navdata', function (data) {
+    // send the data to the web interface
+    io.sockets.emit('data', { device: 'drone', info: data });
+});
+
+// We need some fake test data, so here we go
+if (constants.DEBUG_MODE) {
+    setInterval(function () {
+        var data = util.generateFakeDroneData();
+        io.sockets.emit('data', { device: 'drone', info: data });
+    }, 250);
+}
 
 /* Listen for specific events */
 io.on('connection', function (socket) {
@@ -201,15 +220,7 @@ function exitHandler(options, err) {
     if (options.cleanup) // program stopped, let the drone land in peace
         drone.shutdown();
 
-    if (err || options.exit) // Program is closing or crashed -> emergency
-        drone.emergency();
-}
-
-function exitHandler(options, err) {
-    if (options.cleanup) // program stopped, let the drone land in peace
-        drone.shutdown();
-
-    if (err) drone.emergency();
+    if (err) { console.log(err.stack); drone.emergency(); }
     if (options.exit) process.exit();
 }
 

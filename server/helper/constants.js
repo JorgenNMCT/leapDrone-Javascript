@@ -1,4 +1,8 @@
 /* === Leap motion constants */
+// Debug mode
+const DEBUG_MODE = true;
+
+/* === Leap motion constants */
 // How many frames do we go back for precision?
 const AVERAGE_FRAMES = 20;
 
@@ -18,6 +22,7 @@ const DRONE_SPEED_LEFT_RIGHT = 0.01;    // Left and right
 const DRONE_SPEED_CIRCLES = 0.01;       // Clock- or counter clockwise
 
 module.exports = {
+    DEBUG_MODE: DEBUG_MODE,
     AVERAGE_FRAMES: AVERAGE_FRAMES,
     MIN_MOVEMENT: MIN_MOVEMENT,
     MIN_MOVEMENT_FORWARD: MIN_MOVEMENT_FORWARD,
