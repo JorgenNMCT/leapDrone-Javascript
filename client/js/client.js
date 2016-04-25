@@ -2,8 +2,10 @@ var _dateSeparator = '-';
 var _droneConnected;
 /* If window is loaded */
 $(document).ready(function () {
-    generateControls();
     _droneConnected = false;
+    
+    checkServerConnection();
+    generateControls();
 });
 
 /* Socket.IO */
@@ -112,4 +114,20 @@ function getBootstrapClass(priority) {
             break;
     }
     return classType;
+}
+
+function setServerState(state) {
+    if(state == 'online') $('#offline').hide();
+    else $('#offline').show();
+}
+
+function getServerState() {
+    return socket.connected;
+}
+
+function checkServerConnection() {
+    setInterval(function() {
+        if(socket.connected == true) setServerState('online');
+        else setServerState('offline');
+    }, 50);
 }

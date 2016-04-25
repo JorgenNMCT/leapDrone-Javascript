@@ -188,10 +188,10 @@ client.on('navdata', function (data) {
 
 // We need some fake test data, so here we go
 if (constants.DEBUG_MODE) {
-    setInterval(function () {
+    /*setInterval(function () {
         var data = util.generateFakeDroneData();
         io.sockets.emit('data', { device: 'drone', info: data });
-    }, 500);
+    }, 500);*/
 }
 
 /* Listen for specific events */
