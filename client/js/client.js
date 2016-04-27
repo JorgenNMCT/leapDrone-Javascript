@@ -40,6 +40,11 @@ socket.on("data", function (data) {
     }
 });
 
+socket.on("videoFeed", function (data) {
+    if(data.connection == true) _videoOnline = true;
+    else _videoOnline = false;
+});
+
 function handleSocket(data) {
     if (isServerOnline()) {
         if (typeof data.priority != "undefined" && typeof data.msg != "undefined")
@@ -74,8 +79,9 @@ function showNotification(sender, priority, msg) {
             });
     }
 }
-
+var counter = 0;
 function processDroneData(data) {
+    if (counter < 100) { console.log(data); counter++; }
     if (isServerOnline()) {
         // Drone data
         if (propertyHasValue(data.info.demo.batteryPercentage)) $('#indicator').attr('style', "width: " + (data.info.demo.batteryPercentage - 3 > 0 ? data.info.demo.batteryPercentage - 3 : data.info.demo.batteryPercentage) + "%");
@@ -93,7 +99,7 @@ function processDroneData(data) {
 }
 
 function propertyHasValue(prop) {
-    if (prop && (typeof prop != "undefined" && typeof prop != null) && (prop != null && prop != undefined && prop != "undefined" && prop != "null")) return true;
+    if ((typeof prop != "undefined" && typeof prop != null) && (prop != null && prop != undefined && prop != "undefined" && prop != "null")) return true;
     return false;
 }
 
@@ -141,22 +147,13 @@ function isVideoOnline() {
 
 function getVideoStatus() {
     window.setInterval(function () {
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8000/',
-            timeout: 1000,
-            success: function (data, textStatus, XMLHttpRequest) { _videoOnline = true; },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                _videoOnline = false;
-            }
-        });
-        
-        if(isVideoOnline()) {
+        if (isVideoOnline()) {
             $('.videoFeed').attr('src', 'http://localhost:8000/');
-        }else{
+        } else {
             $('.videoFeed').attr('src', 'img/feed_offline.png');
         }
-    }, 1500);
+        _videoOnline = false;
+    }, 200);
 }
 
 function checkServerConnection() {

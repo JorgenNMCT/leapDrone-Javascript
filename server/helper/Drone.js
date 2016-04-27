@@ -1,16 +1,13 @@
-// Drone instances
-var arDrone = require('ar-drone');
-var client = arDrone.createClient();
-
 // Alle constantes ophalen om deze hier te gebruiken
 var constants = require("../helper/constants.js");
 
 // Variables for program stability
 var isFlying = false;
+var camNumber = 0; // default head camera
 
-var Drone = function (io) {
+var Drone = function (io, client) {
     var self = this;
-
+    
     self.up = function () {
         if (isFlying) {
             client.up(constants.DRONE_SPEED_UP_DOWN);
@@ -144,7 +141,13 @@ var Drone = function (io) {
     }
     
     self.nextCamera = function() {
+        if(camNumber == 0) {
+            camNumber = 3;
+        }else if(camNumber == 3) {
+            camNumber = 0;
+        }
         
+        client.config('video:video_channel', camNumber);
     }
 };
 

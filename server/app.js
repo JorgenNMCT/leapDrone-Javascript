@@ -21,10 +21,10 @@ var fs = require('fs');
 
 // Eigen drone instance
 var Drone = require("./helper/Drone.js");
-var drone = new Drone(io);
+var drone = new Drone(io, client);
 
 // Video feed Drone ophalen
-//require('ar-drone-png-stream')(client, { port: constants.DRONE_VIDEO });
+require('ar-drone-png-stream')(client, { port: constants.DRONE_VIDEO }, io);
 
 // instances
 var Leap = oLeap;
@@ -97,7 +97,7 @@ var controller = Leap.loop({ enableGestures: true }, function (frame) {
                     }
                 } else { // Niet alle vingers zijn uitgestrekt
                     //console.log("Niet alle fingers zijn uitgestrekt");
-                    if (!isHovering) { drone.hover(); isHovering = true; }
+                    //if (!isHovering) { drone.hover(); isHovering = true; }
                 }
             } else if (currentHand.type == "left" && currentHand.valid == true && oldHand.valid == true) {
                 if (newFrame.valid && newFrame.gestures.length > 0) {
@@ -131,6 +131,7 @@ function onDeviceConnected() {
 function onDeviceDisconnected() {
     console.log("LEAP: Device disconnected");
     io.sockets.emit("leapdevice", { sender: 'leap device', info: "disconnected", msg: "Leap Motion device is disconnected!", priority: "high" });
+    drone.shutdown();
 }
 
 function onConnected() {
@@ -146,16 +147,19 @@ function onDeviceAttached(e) {
 function onDeviceStopped() {
     console.log("LEAP: Device stopped");
     io.sockets.emit("leapdevice", { sender: 'leap device', info: "stopped", msg: "Leap Motion device/service stopped working.", priority: "high" });
+    drone.land();
 }
 
 function onDisconnect() {
     console.log("LEAP: Disconnected");
     io.sockets.emit("leap", { sender: 'leap', info: "disconnected", msg: "Leap Motion service is disconnected.", priority: "high" });
+    drone.land();
 }
 
 function onBlur() {
     console.log("LEAP: Focus lost");
     io.sockets.emit("leap", { sender: 'leap', info: "blur" });
+    drone.hover();
 }
 
 function onFocus() {
@@ -166,7 +170,7 @@ function onFocus() {
 /* Socket.io server */
 app.listen(constants.SOCKET_IO_PORT);
 console.log("\nSOCKET.IO: listening on *:" + constants.SOCKET_IO_PORT + "\n");
-//console.log("\DRONE VIDEO: listening on *:" + constants.DRONE_VIDEO + "\n");
+console.log("\DRONE VIDEO: listening on *:" + constants.DRONE_VIDEO + "\n");
 
 function handler(req, res) {
     fs.readFile(__dirname + '/index.html',
@@ -183,6 +187,8 @@ function handler(req, res) {
 
 var callback = function (err) { if (err) console.log(err); };
 client.config({ key: 'general:navdata_demo', value: 'FALSE', timeout: 1000 }, callback);
+client.config({ key: 'general:navdata_options', value: '777060865', timeout: 1000 }, callback);
+
 
 // Ask the drone for his data!
 client.on('navdata', function (data) {
@@ -204,6 +210,7 @@ io.on('connection', function (socket) {
     socket.on('drone', function (data) {
         console.log("SOCKET.IO: " + data.action);
         var cmd = "drone." + data.action + "();";
+        console.log(cmd);
         eval(cmd);
     });
     // Listen for movement specific events (up, down, ...)
